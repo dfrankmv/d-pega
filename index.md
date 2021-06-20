@@ -5,13 +5,9 @@ You `can` use the [editor on GitHub](https://github.com/dfrankmv/pega/edit/gh-pa
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Post Index
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+{% for post in site.posts %}
+- [post.title] ({{ post.url }})
+{% endfor %}
 
 ### Markdown
 
