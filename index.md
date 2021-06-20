@@ -6,7 +6,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ### Post Index
 {% for post in site.posts %}
-- [{{post.title}}](/{{ post.url }})
+- [{{post.title}}]({{ post.url }})
 {% endfor %}
 
 ### Markdown
