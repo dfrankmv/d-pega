@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://dfrankmv.github.io/d-pega/2021/06/20/fill-in-eforms.html -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>How to fill in an eForm PDF in Pega | D_Pega</title>
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="How to fill in an eForm PDF in Pega">
+<meta name="author" content="dfrankmv">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Create an EForm File rule This is a test">
+<meta property="og:description" content="Create an EForm File rule This is a test">
+<link rel="canonical" href="https://dfrankmv.github.io/d-pega/2021/06/20/fill-in-eforms.html">
+<meta property="og:url" content="https://dfrankmv.github.io/d-pega/2021/06/20/fill-in-eforms.html">
+<meta property="og:site_name" content="D_Pega">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-06-20T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="How to fill in an eForm PDF in Pega">
+<script type="application/ld+json">
+{"description":"Create an EForm File rule This is a test","headline":"How to fill in an eForm PDF in Pega","url":"https://dfrankmv.github.io/d-pega/2021/06/20/fill-in-eforms.html","@type":"BlogPosting","dateModified":"2021-06-20T00:00:00+00:00","datePublished":"2021-06-20T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dfrankmv.github.io/d-pega/2021/06/20/fill-in-eforms.html"},"author":{"@type":"Person","name":"dfrankmv"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="css/style.css">
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="https://dfrankmv.github.io/d-pega/">D_Pega</a></h1>
+        
+        
+
+        <p>My Pega blog</p>
+
+        
+        <p class="view"><a href="https://github.com/dfrankmv/d-pega">View the Project on GitHub <small>dfrankmv/d-pega</small></a></p>
+        
+
+        
+
+        
+      </header>
+
+      <section>
+
+        <small>20 June 2021</small>
+        <h1>How to fill in an eForm PDFForm in Pega</h1>
+
+        <p class="view">by dfrankmv</p>
+
+        <!-- ****************************************** INICIO ************************************************************ -->
+
+        <h2>Requirement</h2>
+        <p>This is a test</p>
+
+        <h4>Crear la clase de Data</h4>
+
+        Aunque no es estrictamente necesario, vamos a crear una clase abstracta en la capa de Data (ej. <span class="code">-Data-EFormPDF</span>) para guardar los archivos PDF y la lógica de mapeo de properties.
+
+        <a href='https://postimg.cc/B8hDMzhb' target='_blank'><img src='https://i.postimg.cc/PxH4rsYW/brave-1r0y79prq9.png' border='0' alt='brave-1r0y79prq9'/></a>
+
+        <h4>Crear el EForm File rule</h4>
+
+        Crear un <code>EForm File</code> rule en la clase creada (ej. <span class="code">SampleEFormPDF</span>) y cargar el archivo PDF.
+
+        <pre>Create > Integration-Mapping > EForm File</pre>
+
+        <a href='https://postimg.cc/DJLsQPMY' target='_blank'><img src='https://i.postimg.cc/G2SQCMJr/brave-4-B5m-Xx9-Err.png' border='0' alt='brave-4-B5m-Xx9-Err'/></a>
+
+        <h4>Crear el Map EForm rule</h4>
+
+        Crear un <code>Map EForm</code> rule en la clase creada (ej. <span class="code">SampleMapEForm</span>) y realizar el mapeo de las properties a los campos del PDF. (Para conocer los nombres de los campos ver el Apéndice)
+
+        <pre>Create > Integration-Mapping > Map EForm</pre>
+
+        <a href='https://postimg.cc/q627jB00' target='_blank'><img src='https://i.postimg.cc/gjT6crTw/brave-j-YCmde-Yov5.png' border='0' alt='brave-j-YCmde-Yov5'/></a>
+
+        <h4>Inicializar el objeto EFormPDF con los datos del caso</h4>
+
+        Crear un <code>Data Transform</code> en el cual inicializaremos un objeto de <span class="code">EFormPDF</span> (ej. <span class="code">SampleEFormPDFPage</span>) con datos del caso. (Recordar declararlo en Pages & Classes) 
+
+        <a href='https://postimg.cc/sMQxHRzM' target='_blank'><img src='https://i.postimg.cc/W1SZ32fw/brave-K5xj-Ucv4yw.png' border='0' alt='brave-K5xj-Ucv4yw'/></a>
+
+        <a href='https://postimg.cc/jCRmX1kH' target='_blank'><img src='https://i.postimg.cc/h4mnSWL5/brave-K78-H9qn7k-W.png' border='0' alt='brave-K78-H9qn7k-W'/></a>
+
+        <h4>Crear la utility activity para crear y adjuntar el archivo al caso</h4>
+      
+        <p>
+          Crear el Activity que inicializará el objeto EFormPDF, ejecutará el mapeo de datos y adjuntará el archivo al caso (ej. <span class="code">CreateAndAttachEFormPDF</span>).
+        </p>
+
+        <b>Notas:</b>
+        <br />
+        - El archivo PDF final se guardará en una página <code>Code-Pega-eForm</code> (ej. <span class="code">OutputEFormPDF</span>).
+        <br />
+        - El archivo PDF final se generará utilizando el activity <span class="code">GenerateEForm</span>.
+        <br />
+        - El archivo PDF final se adjuntará al caso utilizando el activity <span class="code">AttachEForm</span>.
+        <br />
+        - El activity se configura como una utility. De esta manera tendremos disponible los parámetros del work object.
+
+        <a href='https://postimg.cc/k69c9BV2' target='_blank'><img src='https://i.postimg.cc/V60HqtmW/p2-Ji-Hw-Xx-BZ.png' border='0' alt='p2-Ji-Hw-Xx-BZ'/></a>
+
+        <a href='https://postimg.cc/qzk52BGc' target='_blank'><img src='https://i.postimg.cc/tCPGQYZc/brave-SPYo-Y6-RNib.png' border='0' alt='brave-SPYo-Y6-RNib'/></a>
+
+        <a href='https://postimg.cc/jw7G38Wz' target='_blank'><img src='https://i.postimg.cc/cH90H205/brave-lr-H8-O88-NLt.png' border='0' alt='brave-lr-H8-O88-NLt'/></a>
+
+        <a href='https://postimg.cc/XZydDhWN' target='_blank'><img src='https://i.postimg.cc/hG2shW3m/brave-6-XKPr9-Fzr-I.png' border='0' alt='brave-6-XKPr9-Fzr-I'/></a>
+
+        <h4>Utilizar el activity en un flujo</h4>
+
+        Agregar el activity en la parte del flujo en donde queremos generar y adjuntar el archivo PDF.
+
+        <a href='https://postimg.cc/WhjVDPKg' target='_blank'><img src='https://i.postimg.cc/SNYxvSfT/brave-vkg9ib-EQLl.png' border='0' alt='brave-vkg9ib-EQLl'/></a>
+
+        <a href='https://postimg.cc/fVn8WwrQ' target='_blank'><img src='https://i.postimg.cc/W1tCnzmz/brave-43-GVCASE3a.png' border='0' alt='brave-43-GVCASE3a'/></a>
+
+        <a href='https://postimg.cc/rzLnLGKF' target='_blank'><img src='https://i.postimg.cc/SQnwCD48/brave-43t3-I8-Ff-YD.png' border='0' alt='brave-43t3-I8-Ff-YD'/></a>
+
+        <h4>Probar con un caso</h4>
+
+        <a href='https://postimg.cc/Jt6kQMVV' target='_blank'><img src='https://i.postimg.cc/ZKZx45wR/brave-sl-SNs-Ex-BZ7.png' border='0' alt='brave-sl-SNs-Ex-BZ7'/></a>
+
+        <a href='https://postimg.cc/8Fc8MRhV' target='_blank'><img src='https://i.postimg.cc/25FzpTy3/brave-Fp4v-Hnr-Xpd.png' border='0' alt='brave-Fp4v-Hnr-Xpd'/></a>
+
+
+        <!-- ******************************************* FIN *********************************************************** -->
+
+        <small>tags: <em></em></small>
+
+
+
+      </section>
+      <footer>
+        
+        <p>This project is maintained by <a href="https://github.com/dfrankmv">dfrankmv</a></p>
+        
+        <p><small>Hosted on GitHub Pages — Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="./How to fill in an eForm PDF in Pega _ D_Pega_files/scale.fix.js.download"></script>
+    
+  
+
+</body></html>
